@@ -1,0 +1,15 @@
+@using AnimalShelterClient.Models;
+@model List<Animal>;
+<h1>All Animals:</h1>
+
+<ol>
+@foreach (Animal animal in Model)
+{
+    <ul>
+        <li>@Html.ActionLink(@animal.name, "Details", new Animal {animalId = animal.animalId, type = animal.type, name = animal.name,  age = animal.age })</li>
+    </ul>
+}
+</ol>
+<br>
+
+<button class="btn btn-info">@Html.ActionLink("Add an animal", "Create")</button>
