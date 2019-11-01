@@ -9,36 +9,35 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using AnimalShelterClient.Models;
 
-
 namespace AnimalShelterClient.Controllers
 {
-    public class HomeController : Controller
+  public class HomeController : Controller
+  {
+
+    [HttpGet("/")]
+    public IActionResult Index()
     {
-        [HttpGet("/")]
-        public IActionResult Index()
-        {
-            var allAnimals = Animal.GetAnimals();
-            return View(allAnimals);
-        }
-
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(Animal animal)
-        {
-            var targetAnimal = Animal.PutAnimal(animal);
-            return RedirectToAction("Details", "Home", targetAnimal);
-        }
-
-        public ActionResult Details (Animal animal)
-        {
-            return View(animal);
-        }
-
-
+        var allAnimals = Animal.GetAnimals();
+        return View(allAnimals);
     }
+
+    [HttpGet]
+    public ActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Animal animal)
+    {
+        var targetAnimal = Animal.PutAnimal(animal);
+        return RedirectToAction("Details", "Animals", targetAnimal);
+    }
+
+    public ActionResult Details (Animal animal)
+    {
+        return View(animal);
+    }
+  }
 }
+

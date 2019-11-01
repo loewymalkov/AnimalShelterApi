@@ -1,0 +1,17 @@
+@using AnimalShelterClient.Models;
+@model Animal;
+
+<h1>All Animals:</h1>
+
+<ol>
+
+    <ul>
+        <li>Type: @Model.type</li>
+        <li>Name: @Model.name</li>
+        <li>Age: @Model.age</li>
+    </ul>
+
+</ol>
+
+<button class="btn btn-info">@Html.ActionLink("Add an animal to the shelter", "Create")</button>
+<button class="btn btn-info">@Html.ActionLink("Back To Home - Display all animals", "Index")</button>
