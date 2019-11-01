@@ -19,7 +19,7 @@ namespace AnimalShelter.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Animal>> Get(int animalId, string type, string name, int age)
+        public ActionResult<IEnumerable<Animal>> Get(int animalId, string type, string name, int age, string animalList)
         {
             var query = _db.Animals.AsQueryable();
             if (animalId != 0)
@@ -42,80 +42,79 @@ namespace AnimalShelter.Controllers
             {
                 animalList = animalList.ToLower();
                 string[] array = animalList.Split(",");
-                
-                List<string> animalsTable = _db.Words.Select(w => w.Name).ToList();
-                foreach (String wo in array)
-                {
-                    if (!(animalsTable.Contains(wo)))
-                    {
-                        Random rand = new Random();
-                        double randomNumber = rand.Next(1,6);
-                        Word newWord = new Word{Name= wo, Rating= randomNumber, RatingCount= 0};
-                        _db.Add(newWord);
-                        _db.SaveChanges();
-                    }
-                }
+                List<string> animalsTable = _db.Animals.Select(w => w.Name).ToList();
+                // foreach (String animal in array)
+                // {
+                //     if (!(animalsTable.Contains(animal)))
+                //     {
+                //         Random rand = new Random();
+                //         double randomNumber = rand.Next(1,6);
+                //         Animal newAnimal = new Animal{Name= animal, Rating= randomNumber, RatingCount= 0};
+                //         _db.Add(newAnimal);
+                //         _db.SaveChanges();
+                //     }
+                // }
                 query = query.Where(w => array.Contains(w.Name));
             }
-            if (page != 0)
-            {
-                int WORDS_PER_PAGE = 30;
-                int NUMBER_OF_WORDS = _db.Words.ToList().Count;
-                int MAX_PAGE = (int)Math.Ceiling((double)NUMBER_OF_WORDS / (double)WORDS_PER_PAGE);
-                if (page <= MAX_PAGE)
-                {
-                    int MIN_RANGE = ((page - 1) * WORDS_PER_PAGE) + 1;
-                    int RANGE = WORDS_PER_PAGE - 1;
-                    if (MIN_RANGE + RANGE > NUMBER_OF_WORDS && MIN_RANGE < NUMBER_OF_WORDS)
-                    {
-                        RANGE = (NUMBER_OF_WORDS - MIN_RANGE) + 1;
-                    }
-                    int[] RANGE_ARRAY = Enumerable.Range(MIN_RANGE, RANGE).ToArray();
-                    query = query.Where(w => RANGE_ARRAY.Contains(w.WordId));
-                }
-            }
+            // if (page != 0)
+            // {
+            //     int WORDS_PER_PAGE = 30;
+            //     int NUMBER_OF_ANIMALS = _db.Animals.ToList().Count;
+            //     int MAX_PAGE = (int)Math.Ceiling((double)NUMBER_OF_ANIMALS / (double)ANIMALS_PER_PAGE);
+            //     if (page <= MAX_PAGE)
+            //     {
+            //         int MIN_RANGE = ((page - 1) * ANIMALS_PER_PAGE) + 1;
+            //         int RANGE = ANIMALS_PER_PAGE - 1;
+            //         if (MIN_RANGE + RANGE > NUMBER_OF_ANIMALS && MIN_RANGE < NUMBER_OF_ANIMALS)
+            //         {
+            //             RANGE = (NUMBER_OF_ANIMALS - MIN_RANGE) + 1;
+            //         }
+            //         int[] RANGE_ARRAY = Enumerable.Range(MIN_RANGE, RANGE).ToArray();
+            //         query = query.Where(w => RANGE_ARRAY.Contains(w.AnimalId));
+            //     }
+            // }
             return query.ToList();
         }
 
         [HttpPost]
-        public void Post([FromBody] Word animal)
+        public void Post([FromBody] Animal animal)
         {
 
             Console.WriteLine("Post");
-            List<string> words = _db.Words.Select(w => w.Name).ToList();
-            if (words.Contains(word.Name))
+            List<string> animals = _db.Animals.Select(w => w.Name).ToList();
+            if (animals.Contains(animal.Name))
             {
-                int wordId = _db.Words.FirstOrDefault(w => w.Name == word.Name).WordId;
-                word.WordId = wordId;
-                _db.Entry(word).State = EntityState.Modified;
+                int animalId = _db.Animals.FirstOrDefault(w => w.Name == animal.Name).AnimalId;
+                animal.AnimalId = animalId;
+                _db.Entry(animal).State = EntityState.Modified;
                 _db.SaveChanges();
             }
             else
             {
-                _db.Words.Add(word);
+                _db.Animals.Add(animal);
                 _db.SaveChanges();
             }
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Word> Get(int id)
+        public ActionResult<Animal> Get(int id)
         {
-            return _db.Words.FirstOrDefault(entry => entry.WordId == id);
+            return _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Word word)
+        public void Put(int id, [FromBody] Animal animal)
         {
-            word.WordId = id;
-            _db.Entry(word).State = EntityState.Modified;
+            animal.AnimalId = id;
+            _db.Entry(animal).State = EntityState.Modified;
             _db.SaveChanges();
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var wordToDelete = _db.Words.FirstOrDefault(entry => entry.WordId == id);
-            _db.Words.Remove(wordToDelete);
+            var animalToDelete = _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
+            _db.Animals.Remove(animalToDelete);
             _db.SaveChanges();
         }
 
