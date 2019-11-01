@@ -21,7 +21,7 @@ namespace AnimalShelterClient.Models
             return response.Content;
         }
 
-        public static async Task<string> ApiPost(Word animal)
+        public static async Task<string> ApiPost(Animal animal)
         {
             RestClient client = new RestClient("http://localhost:5000/api/animals");
             RestRequest request = new RestRequest("/", Method.POST);
@@ -30,7 +30,7 @@ namespace AnimalShelterClient.Models
             return response.Content;
         }
 
-        public static async Task<string> ApiPut(int id, Word animal)
+        public static async Task<string> ApiPut(int id, Animal animal)
         {
             RestClient client = new RestClient("http://localhost:5000/api/animals");
             RestRequest request = new RestRequest($"/{id}", Method.PUT);
