@@ -7,6 +7,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(model => model.animalId)  
+
     @Html.Label("Animal", "Type: ")
     @Html.TextBoxFor(model => model.type)
     <br>

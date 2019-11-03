@@ -38,6 +38,19 @@ namespace AnimalShelterClient.Controllers
     {
         return View(animal);
     }
+
+    [HttpGet]
+    public ActionResult Type()
+    {
+        return View();
+    }
+
+    // [HttpPost]
+    // public ActionResult Type(Animal animal)
+    // {
+    //     var targetAnimal = Animal.PutAnimal(animal);
+    //     return RedirectToAction("Type", "Animals", targetAnimal);
+    // }
   }
 }
 

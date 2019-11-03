@@ -1,0 +1,22 @@
+@using AnimalShelterClient.Models;
+@model List<Animal>;
+
+
+<h3>Animals by type:</h3>
+@foreach (Animal animal in Model)
+{
+    <ul>
+    
+    if (animal.type == 'dog')
+    {
+        <li>@Html.ActionLink(@animal.type, "Type", new Animal {animalId = animal.animalId, type = animal.type, name = animal.name,  age = animal.age })</li>
+    }
+    else
+    {
+      <li>@Html.ActionLink(@animal.type, "Type", new Animal {animalId = animal.animalId, type = animal.type, name = animal.name,  age = animal.age })</li>
+    }
+    </ul>
+}
+
+<button class="btn btn-info">@Html.ActionLink("Add an animal to the shelter", "Create")</button>
+<button class="btn btn-info">@Html.ActionLink("Back To Home - Display all animals", "Index")</button>
